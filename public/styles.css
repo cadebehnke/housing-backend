@@ -1,11 +1,10 @@
 body {
-    font-family: sans-serif;
-    background: #f4f4f4;
-    padding: 2rem;
-    text-align: center;
-  }
-  a {
-    color: #0077cc;
-    text-decoration: none;
-  }
-  
+  font-family: Arial, sans-serif;
+  background: #fdf6f0;
+  padding: 2rem;
+  text-align: center;
+}
+a {
+  color: #cc6600;
+  text-decoration: none;
+}

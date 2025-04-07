@@ -1,42 +1,18 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const fs = require("fs");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
-app.use(express.static("public")); 
+app.use(express.static("public"));
 
-const houses = [
-  {
-    _id: 1,
-    name: "Farmhouse",
-    size: 2000,
-    bedrooms: 3,
-    bathrooms: 2.5,
-    main_image: "images/farm.webp"
-  },
-  {
-    _id: 2,
-    name: "Mountain House",
-    size: 1700,
-    bedrooms: 3,
-    bathrooms: 2,
-    main_image: "images/mountain-house.webp"
-  },
-  {
-    _id: 3,
-    name: "Lake House",
-    size: 3000,
-    bedrooms: 4,
-    bathrooms: 3,
-    main_image: "images/farm.webp"
-  }
-];
+const womenData = JSON.parse(fs.readFileSync(path.join(__dirname, "data", "women.json"), "utf8"));
 
-app.get("/api/houses", (req, res) => {
-  res.json(houses);
+app.get("/api/women", (req, res) => {
+  res.json(womenData);
 });
 
 app.get("/", (req, res) => {
