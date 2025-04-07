@@ -1,0 +1,11 @@
+body {
+    font-family: sans-serif;
+    background: #f4f4f4;
+    padding: 2rem;
+    text-align: center;
+  }
+  a {
+    color: #0077cc;
+    text-decoration: none;
+  }
+  
