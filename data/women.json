@@ -1,7 +1,7 @@
 [
   {
       "_id": 1,
-      "img_name": "public/images/jeans.png",
+      "img_name": "images/jeans.png",
       "name": "Women's Jeans",
       "price": "$39.99",
       "description": "Stylish and comfortable jeans for everyday wear.",
@@ -10,7 +10,7 @@
   },
   {
       "_id": 2,
-      "img_name": "public/images/jeans.png",
+      "img_name": "images/outerwear.png",
       "name": "Women's Outerwear",
       "price": "$59.99",
       "description": "Warm and trendy outerwear to keep you stylish in any season.",
@@ -19,7 +19,7 @@
   },
   {
       "_id": 3,
-      "img_name": "public/images/jeans.png",
+      "img_name": "images/dress.png",
       "name": "Elegant Dress",
       "price": "$49.99",
       "description": "Perfect for special occasions, this dress combines elegance and comfort.",
@@ -28,7 +28,7 @@
   },
   {
       "_id": 4,
-      "img_name": "public/images/jeans.png",
+      "img_name": "images/sweater.png",
       "name": "Cozy Sweater",
       "price": "$29.99",
       "description": "Stay warm and fashionable with our soft-knit sweaters.",
@@ -37,7 +37,7 @@
   },
   {
       "_id": 5,
-      "img_name": "public/images/jeans.png",
+      "img_name": "images/pants.png",
       "name": "Women's Pants",
       "price": "$34.99",
       "description": "Comfortable and versatile pants for any occasion.",
@@ -46,7 +46,7 @@
   },
   {
       "_id": 6,
-      "img_name": "public/images/jeans.png",
+      "img_name": "images/pajamas.png",
       "name": "Comfy Pajamas",
       "price": "$24.99",
       "description": "Relax in style with these soft and cozy pajamas.",
@@ -55,7 +55,7 @@
   },
   {
       "_id": 7,
-      "img_name": "public/images/jeans.png",
+      "img_name": "images/heels.png",
       "name": "Chic Heels",
       "price": "$44.99",
       "description": "Elegant heels to elevate any outfit.",
@@ -64,7 +64,7 @@
   },
   {
       "_id": 8,
-      "img_name": "public/images/jeans.png",
+      "img_name": "images/handbag.png",
       "name": "Leather Handbag",
       "price": "$79.99",
       "description": "A stylish and spacious handbag for all your essentials.",
