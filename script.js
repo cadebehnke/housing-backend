@@ -18,7 +18,7 @@ const messageSchema = new mongoose.Schema({
 const Message = mongoose.model("Message", messageSchema);
 
 const joiSchema = Joi.object({
-  name: Joi.string().min(3).max(50).required(),
+  name: Joi.string().min(1).max(200).required(),
 });
 
 app.get("/api/messages", async (req, res) => {
