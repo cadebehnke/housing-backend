@@ -38,9 +38,7 @@ app.post("/api/messages", async (req, res) => {
   res.send({ success: true, message });
 });
 
-const womenData = JSON.parse(
-  fs.readFileSync(path.join(__dirname, "data", "women.json"), "utf8")
-);
+const womenData = JSON.parse(fs.readFileSync(path.join(__dirname, "data", "women.json"), "utf8"));
 
 app.get("/api/women", (req, res) => {
   res.json(womenData);
@@ -50,6 +48,5 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running on http://localhost:${PORT}`);
-});
+const port = process.env.PORT || 3001;
+app.listen(port, () => console.log(`🚀 Server running on port ${port}...`));
