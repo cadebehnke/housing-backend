@@ -8,11 +8,10 @@ const path = require("path");
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.use(cors({ origin: "*" }));
-app.options("*", cors()); 
+app.use(cors());                         
 
 app.use(express.json());
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 mongoose
   .connect(
