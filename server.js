@@ -8,15 +8,15 @@ const path = require("path");
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.use(cors());                         
+app.use(cors());
+app.options("/api/messages", cors());
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 mongoose
   .connect(
-    "mongodb+srv://behnkecade:Su2i9yCVWFqfGPaO@cluster0.5lbrbmw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
-    { useNewUrlParser: true, useUnifiedTopology: true }
+    "mongodb+srv://behnkecade:Su2i9yCVWFqfGPaO@cluster0.5lbrbmw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
   )
   .then(() => console.log("✅ Connected to MongoDB..."))
   .catch((err) => console.error("❌ Could not connect to MongoDB...", err));
