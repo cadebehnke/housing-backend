@@ -8,10 +8,10 @@ const path = require("path");
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.use(cors());                    
+app.use(cors());
 app.options("/api/messages", cors()); 
-app.use(express.json());            
-app.use(express.static(path.join(__dirname, "public"))); 
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 
 mongoose
   .connect(
@@ -25,7 +25,7 @@ const messageSchema = new mongoose.Schema({
   age:     Number,
   state:   String,
   review:  Number,
-  message: String
+  message: String,
 });
 const Message = mongoose.model("Message", messageSchema);
 
@@ -34,7 +34,7 @@ const joiSchema = Joi.object({
   age:     Joi.number().integer().min(0).max(120).required(),
   state:   Joi.string().min(2).max(50).required(),
   review:  Joi.number().min(0).max(5).required(),
-  message: Joi.string().min(5).max(500).required()
+  message: Joi.string().min(5).max(500).required(),
 });
 
 app.get("/api/messages", async (req, res) => {
@@ -56,6 +56,32 @@ app.post("/api/messages", async (req, res) => {
     res.json(newMsg);
   } catch {
     res.status(500).send("Failed to save message.");
+  }
+});
+
+app.put("/api/messages/:id", async (req, res) => {
+  const { error } = joiSchema.validate(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  try {
+    const updatedMsg = await Message.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!updatedMsg) return res.status(404).send("Message not found.");
+    res.json(updatedMsg);
+  } catch {
+    res.status(500).send("Failed to update message.");
+  }
+});
+
+app.delete("/api/messages/:id", async (req, res) => {
+  try {
+    const deletedMsg = await Message.findByIdAndDelete(req.params.id);
+    if (!deletedMsg) return res.status(404).send("Message not found.");
+    res.send("Message deleted successfully.");
+  } catch {
+    res.status(500).send("Failed to delete message.");
   }
 });
 
