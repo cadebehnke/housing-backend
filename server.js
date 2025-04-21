@@ -8,16 +8,14 @@ const path = require("path");
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.use(cors());
-app.options("/api/messages", cors());
+app.use(cors());                           
+app.options("/api/messages", cors());      
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 mongoose
-  .connect(
-    "mongodb+srv://behnkecade:Su2i9yCVWFqfGPaO@cluster0.5lbrbmw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-  )
+  .connect("mongodb+srv://behnkecade:Su2i9yCVWFqfGPaO@cluster0.5lbrbmw.mongodb.net/?retryWrites=true&w=majority")
   .then(() => console.log("✅ Connected to MongoDB..."))
   .catch((err) => console.error("❌ Could not connect to MongoDB...", err));
 
@@ -25,23 +23,23 @@ const messageSchema = new mongoose.Schema({
   name: String,
   age: Number,
   state: String,
-  review: Number,
+  review: Number
 });
 const Message = mongoose.model("Message", messageSchema);
 
 const joiSchema = Joi.object({
-  name: Joi.string().min(2).max(100).required(),
-  age: Joi.number().integer().min(0).max(120).required(),
-  state: Joi.string().min(2).max(50).required(),
-  review: Joi.number().min(0).max(5).required(),
+  name:   Joi.string().min(2).max(100).required(),
+  age:    Joi.number().integer().min(0).max(120).required(),
+  state:  Joi.string().min(2).max(50).required(),
+  review: Joi.number().min(0).max(5).required()
 });
 
 app.get("/api/messages", async (req, res) => {
   try {
-    const messages = await Message.find();
-    res.json(messages);
-  } catch (err) {
-    res.status(500).send("Failed to retrieve messages.");
+    const msgs = await Message.find();
+    res.json(msgs);
+  } catch {
+    res.status(500).send("Failed to fetch messages.");
   }
 });
 
@@ -49,26 +47,24 @@ app.post("/api/messages", async (req, res) => {
   const { error } = joiSchema.validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const newMessage = new Message(req.body);
+  const newMsg = new Message(req.body);
   try {
-    await newMessage.save();
-    res.json(newMessage);
-  } catch (err) {
-    res.status(500).send("Error saving message.");
+    await newMsg.save();
+    res.json(newMsg);
+  } catch {
+    res.status(500).send("Failed to save message.");
   }
 });
 
 const womenData = JSON.parse(
   fs.readFileSync(path.join(__dirname, "data", "women.json"), "utf8")
 );
-app.get("/api/women", (req, res) => {
-  res.json(womenData);
-});
+app.get("/api/women", (req, res) => res.json(womenData));
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
+app.get("/", (req, res) =>
+  res.sendFile(path.join(__dirname, "public", "index.html"))
+);
 
-app.listen(port, () => {
-  console.log(`🚀 Server running on http://localhost:${port}`);
-});
+app.listen(port, () =>
+  console.log(`🚀 Server running on http://localhost:${port}`)
+);
