@@ -2,19 +2,25 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const Joi = require("joi");
+const fs = require("fs");
 const path = require("path");
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const port = process.env.PORT || 3001;
 
-app.use(cors());
+app.use(cors({ origin: "*" }));
+app.options("*", cors()); 
+
 app.use(express.json());
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/housing", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose
+  .connect(
+    "mongodb+srv://behnkecade:Su2i9yCVWFqfGPaO@cluster0.5lbrbmw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+    { useNewUrlParser: true, useUnifiedTopology: true }
+  )
+  .then(() => console.log("✅ Connected to MongoDB..."))
+  .catch((err) => console.error("❌ Could not connect to MongoDB...", err));
 
 const messageSchema = new mongoose.Schema({
   name: String,
@@ -22,34 +28,48 @@ const messageSchema = new mongoose.Schema({
   state: String,
   review: Number,
 });
-
 const Message = mongoose.model("Message", messageSchema);
 
 const joiSchema = Joi.object({
-  name: Joi.string().min(3).max(100).required(),
+  name: Joi.string().min(2).max(100).required(),
   age: Joi.number().integer().min(0).max(120).required(),
   state: Joi.string().min(2).max(50).required(),
-  review: Joi.number().integer().min(1).max(5).required(),
+  review: Joi.number().min(0).max(5).required(),
 });
 
 app.get("/api/messages", async (req, res) => {
-  const messages = await Message.find();
-  res.json(messages);
+  try {
+    const messages = await Message.find();
+    res.json(messages);
+  } catch (err) {
+    res.status(500).send("Failed to retrieve messages.");
+  }
 });
 
 app.post("/api/messages", async (req, res) => {
   const { error } = joiSchema.validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const message = new Message(req.body);
-  await message.save();
-  res.status(200).json(message);
+  const newMessage = new Message(req.body);
+  try {
+    await newMessage.save();
+    res.json(newMessage);
+  } catch (err) {
+    res.status(500).send("Error saving message.");
+  }
+});
+
+const womenData = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "data", "women.json"), "utf8")
+);
+app.get("/api/women", (req, res) => {
+  res.json(womenData);
 });
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`🚀 Server running on http://localhost:${port}`);
 });
